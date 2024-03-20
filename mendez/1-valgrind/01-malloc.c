@@ -26,6 +26,7 @@ int main() {
     printf("\n\n El valor almacenado en el heap es %i \n\n", *numero);
 
     //??
+    free(numero);
 
 
     return 0;

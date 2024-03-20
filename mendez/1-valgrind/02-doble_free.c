@@ -23,7 +23,7 @@ int main() {
     free(letra);
 
     //Por las dudas, liberamos de nuevo
-    free(letra);
+    /* free(letra); */
 
     return 0;
 }

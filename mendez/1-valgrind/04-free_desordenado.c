@@ -8,7 +8,7 @@ int main() {
     int* num;
     free(num);
     num = malloc(sizeof(int));
-    //free(num); //esto arreglaría el error?
+    //free(num); //esto arreglaría el error?//no, no lo arregla
     return 0;
 }
 
