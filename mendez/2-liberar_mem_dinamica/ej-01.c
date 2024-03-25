@@ -9,6 +9,6 @@
 
 int main() {
     int *num = malloc(sizeof(int));
-
+    free(num);
     return 0;
 }
