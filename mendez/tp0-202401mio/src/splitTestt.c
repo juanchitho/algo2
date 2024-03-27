@@ -15,29 +15,13 @@ int contar_ocurrencias(const char* string, char separador) {
 }
 
 char** split(const char* string, char separador) {
-    if (string == NULL || *string == '\0') {
-        // Si la cadena es nula o vacía, devolvemos un arreglo de punteros vacío
-        char** subcadenas_vacias = malloc(sizeof(char*));
-        if (subcadenas_vacias == NULL) {
-            return NULL; // Manejo de error si no se puede asignar memoria
-        }
-        subcadenas_vacias[0] = NULL; // Marcamos el final del arreglo con NULL
-        return subcadenas_vacias;
-    }
-
     // Contamos la cantidad de subcadenas que se generarán
-    int cantidad_subcadenas = 0;
-    for (int i = 0; string[i] != '\0'; i++) {
-        if (string[i] == separador) {
-            cantidad_subcadenas++;
-        }
-    }
-    cantidad_subcadenas++; // Añadimos una más para la última subcadena
+    int cantidad_subcadenas = contar_ocurrencias(string, separador) + 1;
 
     // Asignamos memoria para el arreglo de punteros a cadenas
-    char** subcadenas = malloc((cantidad_subcadenas + 1) * sizeof(char*));
+    char** subcadenas = (char**)malloc((cantidad_subcadenas + 1) * sizeof(char*));
     if (subcadenas == NULL) {
-        return NULL; // Manejo de error si no se puede asignar memoria
+        return NULL; // En caso de error al asignar memoria
     }
 
     int inicio = 0; // Indice de inicio de la subcadena actual
@@ -47,7 +31,7 @@ char** split(const char* string, char separador) {
     for (int i = 0; string[i] != '\0'; i++) {
         if (string[i] == separador) {
             // Asignamos memoria para almacenar la subcadena
-            subcadenas[indice_subcadenas] = malloc((i - inicio + 1) * sizeof(char));
+            subcadenas[indice_subcadenas] = (char*)malloc((i - inicio + 1) * sizeof(char));
             if (subcadenas[indice_subcadenas] == NULL) {
                 // En caso de error al asignar memoria
                 // Liberamos la memoria asignada previamente
@@ -65,7 +49,7 @@ char** split(const char* string, char separador) {
         }
     }
 
-    // Copiamos la última subcadena (o la única si no hay separadores al final)
+    // Copiamos la última subcadena (o la única si no hay separadores al final )
     subcadenas[indice_subcadenas] = strdup(string + inicio);
     if (subcadenas[indice_subcadenas] == NULL) {
         // En caso de error al asignar memoria
@@ -82,6 +66,7 @@ char** split(const char* string, char separador) {
 
     return subcadenas;
 }
+
 int main() {
     const char* string = "123:456:789:0";
     char** subcadenas = split(string, ':');
@@ -148,9 +133,11 @@ int main() {
     char** resultado5 = split(caso5, ',');
     printf("Resultado del Caso 5:\n");
     if (resultado5 != NULL) {
-        printf("'%s'\n", resultado5[0]); // Debería imprimir una cadena vacía
-        free(resultado5[0]); // Liberamos la memoria de la subcadena
-        free(resultado5);   // Liberamos el arreglo de punteros
+        for (int i = 0; resultado5[i] != NULL; i++) {
+            printf("%s\n", resultado5[i]);
+            free(resultado5[i]);
+        }
+        free(resultado5);
     } else {
         printf("Error en el Caso 5\n");
     }
@@ -160,7 +147,13 @@ int main() {
     const char* caso6 = NULL;
     char** resultado6 = split(caso6, ';');
     printf("Resultado del Caso 6:\n");
-    if (resultado6 == NULL) {
+    if (resultado6 != NULL) {
+        for (int i = 0; resultado6[i] != NULL; i++) {
+            printf("%s\n", resultado6[i]);
+            free(resultado6[i]);
+        }
+        free(resultado6);
+    } else {
         printf("Error en el Caso 6\n");
     }
     printf("\n");
