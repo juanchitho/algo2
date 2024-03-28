@@ -18,7 +18,7 @@ char** split(const char* string, char separador)
 {
     //armamos el char**
     int catidad_de_elementos_vec = contador_de_separadores(string, separador) + 1;
-    char** vec_de_punteros = (char**)malloc((catidad_de_elementos_vec + 1) * sizeof(char*));
+    char** vec_de_punteros = (char**)malloc((catidad_de_elementos_vec + 1) * (sizeof(char*)));
     if (vec_de_punteros == NULL){
         return NULL;
     }
@@ -29,7 +29,7 @@ char** split(const char* string, char separador)
 
     for(i=0; string[i] != '\n' && puedo_continuar != 1; i++){
         if (string[i] == separador) {
-            vec_de_punteros[indice_del_vector] = malloc((i - posicion_inicial_de_palabra + 1) * sizeof(char));
+            vec_de_punteros[indice_del_vector] = malloc((i - posicion_inicial_de_palabra + 1) * (sizeof(char)));
             if (vec_de_punteros[indice_del_vector] == NULL) {
                 puedo_continuar = 1;
             } else {
@@ -42,7 +42,7 @@ char** split(const char* string, char separador)
     }
 
     if(!puedo_continuar) {
-        vec_de_punteros[indice_del_vector] = malloc((strlen(string) - posicion_inicial_de_palabra + 1) * sizeof(char));
+        vec_de_punteros[indice_del_vector] = malloc((strlen(string) - posicion_inicial_de_palabra + 1) * (sizeof(char)));
         if (vec_de_punteros[indice_del_vector] == NULL) {
             puedo_continuar = 1;
         } else {
